@@ -11,6 +11,7 @@ Route::post(uri: '/login', action: [AuthController::class, 'login']);
 Route::get(uri: '/projects', action: [ProjectController::class, 'index']);
 Route::post(uri: '/projects', action: [ProjectController::class, 'store']);
 Route::put(uri: '/projects', action: [ProjectController::class, 'update']);
+Route::post(uri: '/projects/pinned', action: [ProjectController::class, 'pinnedProject']);
 Route::get(uri: '/user', action: function (Request $request) {
     return $request->user();
 })->middleware(middleware: 'auth:sanctum');
