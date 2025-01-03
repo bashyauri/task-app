@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
+    public function getProject(Request $request, $slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+        return response()->json(data: $project, status: 200);
+    }
     public function index(Request $request): JsonResponse
     {
         $query = $request->query(key: 'query');
@@ -81,7 +86,7 @@ class ProjectController extends Controller
             'name' => $fields['name'],
             'start_date' => $fields['startDate'],
             'end_date' => $fields['endDate'],
-            'slug' => Str::slug(title: $fields['name']) . ' ' . $code,
+            'slug' => Str::slug(title: $fields['name'])  . $code,
         ]);
 
 

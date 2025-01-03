@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,12 @@ Route::controller(MemberController::class)->group(function () {
     Route::get('/members', 'index');
     Route::post('/members', 'store');
     Route::put('/members', 'update');
+});
+
+// Member routes
+Route::controller(TaskController::class)->group(function () {
+
+    Route::post('/tasks', 'createTask');
 });
 
 // User route
