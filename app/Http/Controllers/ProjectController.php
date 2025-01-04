@@ -115,4 +115,9 @@ class ProjectController extends Controller
         ]);
         return response()->json(data: ['message' => 'Project Pinned on Dashboard!'], status: 200);
     }
+    public function countProject(): JsonResponse
+    {
+        $count = Project::count();
+        return response()->json(data: ['count' => $count], status: 200);
+    }
 }
