@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Task extends Model
 {
@@ -11,4 +12,8 @@ class Task extends Model
     public const IN_PROGRESS = 2;
     public const COMPLETED = 3;
     protected $guarded = [];
+    public function taskMembers(): HasMany
+    {
+        return $this->hasMany(TaskMember::class);
+    }
 }

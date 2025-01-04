@@ -17,6 +17,7 @@ Route::controller(ProjectController::class)->group(function () {
     Route::post('/projects', 'store');
     Route::put('/projects', 'update');
     Route::post('/projects/pinned', 'pinnedProject');
+    Route::get('/projects/{slug}', 'getProjects');
 });
 
 // Member routes

@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
-    public function getProject(Request $request, $slug)
+    public function getProjects(Request $request, $slug)
     {
-        $project = Project::where('slug', $slug)->first();
+        $project = Project::with(['tasks.taskMembers.member'])->where('slug', $slug)->first();
         return response()->json(data: $project, status: 200);
     }
     public function index(Request $request): JsonResponse
