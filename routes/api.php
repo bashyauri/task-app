@@ -28,10 +28,16 @@ Route::controller(MemberController::class)->group(function () {
     Route::put('/members', 'update');
 });
 
-// Member routes
+// Task routes
 Route::controller(TaskController::class)->group(function () {
 
     Route::post('/tasks', 'createTask');
+    Route::post('/tasks/not_started_to_pending', 'taskNotStartedToPending');
+    Route::post('/tasks/not_started_to_completed', 'taskNotStartedToCompleted');
+    Route::post('/tasks/pending_to_completed', 'taskPendingToInCompleted');
+    Route::post('/tasks/pending_to_not_started', 'taskPendingToNotStarted');
+    Route::post('/tasks/completed_to_pending', 'taskCompletedToPending');
+    Route::post('/tasks/completed_to_not_started', 'taskCompletedToNotStarted');
 });
 
 // User route

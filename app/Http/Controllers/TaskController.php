@@ -42,4 +42,41 @@ class TaskController extends Controller
             return response()->json(data: ['message' => 'Tasks Created'], status: 201);
         });
     }
+    public function taskNotStartedToPending(Request $request)
+    {
+        Task::changeTaskStatus($request->task_id, Task::PENDING);
+
+        return response()->json(data: ['message' => 'Task status changed to pending'], status: 200);
+    }
+    public function taskNotStartedToCompleted(Request $request)
+    {
+        Task::changeTaskStatus($request->task_id, Task::COMPLETED);
+
+        return response()->json(data: ['message' => 'Task status changed to completed'], status: 200);
+    }
+    public function taskPendingToCompleted(Request $request)
+    {
+        Task::changeTaskStatus($request->task_id, Task::COMPLETED);
+
+        return response()->json(data: ['message' => 'Task status changed to in completed'], status: 200);
+    }
+    public function taskPendingToNotStarted(Request $request)
+    {
+
+        Task::changeTaskStatus($request->task_id, Task::NOT_STARTED);
+
+        return response()->json(data: ['message' => 'Task status changed to not started'], status: 200);
+    }
+    public function taskCompletedToPending(Request $request)
+    {
+        Task::changeTaskStatus($request->task_id, Task::PENDING);
+
+        return response()->json(data: ['message' => 'Task status changed to pending'], status: 200);
+    }
+    public function taskCompletedToNotStarted(Request $request)
+    {
+        Task::changeTaskStatus($request->task_id, Task::NOT_STARTED);
+
+        return response()->json(data: ['message' => 'Task status changed to not started'], status: 200);
+    }
 }
