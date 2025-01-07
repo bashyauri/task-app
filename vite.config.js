@@ -10,4 +10,7 @@ export default defineConfig({
         }),
         vue(),
     ],
+    server: {
+        host: "localhost",
+    },
 });
