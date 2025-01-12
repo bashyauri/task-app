@@ -25,5 +25,5 @@ async function register() {
 }
 
 export default function useRegister() {
-    return { register, loading };
+    return { loading, registerInput, register };
 }
