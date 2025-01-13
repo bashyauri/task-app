@@ -17,6 +17,7 @@ export async function makeHttpReq(endpoint, httpVerbType, data = null) {
         },
     };
 
+    // Add the request body if data is provided and the method is POST or PUT
     if (
         data &&
         (httpVerbType === HttpVerbType.POST ||
@@ -27,9 +28,7 @@ export async function makeHttpReq(endpoint, httpVerbType, data = null) {
 
     try {
         const response = await fetch(endpoint, options);
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
+
         const responseData = await response.json();
         return responseData;
     } catch (error) {

@@ -22,7 +22,9 @@ class AuthController extends Controller
         ]);
 
         if ($errors->fails()) {
-            return response()->json(data: $errors->errors(), status: 422);
+            if ($errors->fails()) {
+                return response()->json(['errors' => $errors->errors()], 422);
+            }
         }
         $user = User::create([
             'email' => $fields['email'],

@@ -4,6 +4,7 @@ import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
 import Error from "../../components/Error.vue";
 import BaseInput from "../../components/BaseInput.vue";
+import BaseBtn from "../../components/BaseBtn.vue";
 
 const rules = {
     email: { required, email }, // Matches state.contact.email
@@ -15,7 +16,8 @@ const v$ = useVuelidate(rules, registerInput);
 async function submitRegister() {
     const result = v$.value.$validate();
     if (result) {
-        // await registerInput();
+        await register(registerInput);
+        v$.value.$reset();
     }
 }
 </script>
@@ -45,9 +47,9 @@ async function submitRegister() {
                                     />
                                 </Error>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                Register
-                            </button>
+                            <div class="mb-3">
+                                <BaseBtn label="Register" :loading="loading" />
+                            </div>
                         </form>
                     </div>
                     <div class="card-footer text-center">

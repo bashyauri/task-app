@@ -1,5 +1,4 @@
 import { ref } from "vue";
-import { makeHttpReq } from "../helper/makeHttpReq";
 import { showError, successMsg } from "../helper/toast-notification";
 
 const loading = ref(false);
@@ -8,15 +7,21 @@ const registerInput = ref({});
 async function register() {
     try {
         loading.value = true;
-        const data = await makeHttpReq("register", "POST", registerInput.value);
+        const response = await axios.post(
+            "https://task-app.test/api/register",
+            registerInput.value
+        );
         loading.value = false;
-        registerInput.value = {};
-        successMsg(data.message);
+        registerInput.value = { email: "", password: "" };
+        successMsg(response.data.message);
     } catch (error) {
         loading.value = false;
-        if (Array.isArray(error)) {
-            for (const message of error) {
-                showError(message);
+        if (error.response && error.response.data.errors) {
+            const errors = error.response.data.errors;
+            for (const key in errors) {
+                if (errors.hasOwnProperty(key)) {
+                    showError(errors[key][0]);
+                }
             }
         } else {
             showError(error.message || "An error occurred");
