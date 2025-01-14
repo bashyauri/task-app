@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -48,31 +49,52 @@ class AuthController extends Controller
     }
     public function login(Request $request): JsonResponse
     {
-        $fields = $request->only(keys: ['email', 'password']);
-        $errors = Validator::make(data: $fields, rules: [
+        // Validate request data
+        $validator = Validator::make($request->only(['email', 'password']), [
             'email' => 'required|string|email',
             'password' => 'required|string|min:6',
         ]);
 
-        if ($errors->fails()) {
-            return response()->json(data: $errors->errors(), status: 422);
-        }
-        $user = User::where(column: 'email', operator: $fields['email'])->first();
-        if ($user === null || !password_verify(password: $fields['password'], hash: $user->password)) {
-            return response()->json(data: ['error' => 'Invalid credentials'], status: 401);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
         }
 
-        if (intval(value: $user->isValidEmail) !== User::IS_VALID_EMAIL) {
-            NewUserCreatedEvent::dispatch($user);
-            return response()->json(data: ['error' => 'Email is not verified'], status: 401);
+        // Find user by email
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid email or password',
+            ], 401);
         }
-        $token = $user->createToken(name: 'auth_token')->plainTextToken;
-        return response()->json(data: [
-            'user' => $user,
-            'token' => $token,
+
+        // Check if email is verified
+        if ((int) $user->isValidEmail !== User::IS_VALID_EMAIL) {
+            NewUserCreatedEvent::dispatch($user);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Email is not verified. A verification email has been sent.',
+            ], 401);
+        }
+
+        // Generate token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
             'message' => 'User logged in successfully',
-            'isLoggedIn' => true
-        ], status: 200);
+            'data' => [
+                'user' => $user,
+                'token' => $token,
+                'isLoggedIn' => true,
+            ],
+        ], 200);
     }
     private function generateRandomCode(): string
     {

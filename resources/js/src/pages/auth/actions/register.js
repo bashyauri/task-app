@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { showError, successMsg } from "../helper/toast-notification";
+import { showError, successMsg } from "../../../helper/toast-notification";
 
 const loading = ref(false);
 const registerInput = ref({});
@@ -7,10 +7,7 @@ const registerInput = ref({});
 async function register() {
     try {
         loading.value = true;
-        const response = await axios.post(
-            "https://task-app.test/api/register",
-            registerInput.value
-        );
+        const response = await api.post("/register", registerInput.value);
         loading.value = false;
         registerInput.value = { email: "", password: "" };
         successMsg(response.data.message);
@@ -24,7 +21,7 @@ async function register() {
                 }
             }
         } else {
-            showError(error.message || "An error occurred");
+            showError(error.response.data.message || "An error occurred");
         }
     }
 }

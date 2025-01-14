@@ -1,7 +1,8 @@
 <script setup>
-import useRegister from "../../actions/register";
+import useRegister from "./actions/register";
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
+
 import Error from "../../components/Error.vue";
 import BaseInput from "../../components/BaseInput.vue";
 import BaseBtn from "../../components/BaseBtn.vue";
@@ -44,6 +45,7 @@ async function submitRegister() {
                                 >
                                     <BaseInput
                                         v-model="registerInput.password"
+                                        inputType="password"
                                     />
                                 </Error>
                             </div>
@@ -53,12 +55,10 @@ async function submitRegister() {
                         </form>
                     </div>
                     <div class="card-footer text-center">
-                        <small class="text-muted"
-                            >Already have an account?
-                            <a href="/auth/login" class="text-primary"
-                                >Login</a
-                            ></small
-                        >
+                        <small class="text-muted">
+                            Already have an account?
+                            <router-link to="/login">Login</router-link>
+                        </small>
                     </div>
                 </div>
             </div>
