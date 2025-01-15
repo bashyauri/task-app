@@ -43,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
-            return  redirect('/login');
+            return  redirect('app/login');
         }
         return response()->json(data: ['error' => 'Invalid token'], status: 404);
     }

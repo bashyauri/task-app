@@ -1,9 +1,15 @@
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import api from "../../../helper/makeHttpReq";
 import { showError, successMsg } from "../../../helper/toast-notification";
 
 const loading = ref(false);
 const loginInput = ref({});
+const loginResponse = reactive({
+    user: {},
+    isLoggedIn: false,
+    token: null,
+    errors: [],
+});
 
 async function login() {
     try {
@@ -12,7 +18,16 @@ async function login() {
         loading.value = false;
         loginInput.value = { email: "", password: "" };
 
+        const { isLoggedIn } = response.data.data;
+
         successMsg(response.data.message);
+        if (isLoggedIn) {
+            localStorage.setItem(
+                "userData",
+                JSON.stringify(response.data.data)
+            );
+            window.location.href = "app/dashboard";
+        }
     } catch (error) {
         loading.value = false;
         if (error.response.data.errors) {

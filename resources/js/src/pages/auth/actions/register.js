@@ -13,7 +13,7 @@ async function register() {
         successMsg(response.data.message);
     } catch (error) {
         loading.value = false;
-        if (error.response && error.response.data.errors) {
+        if (error.response.data.errors) {
             const errors = error.response.data.errors;
             for (const key in errors) {
                 if (errors.hasOwnProperty(key)) {
