@@ -1,15 +1,12 @@
 <script setup>
 import Navbar from "./components/Navbar.vue";
-function logOutUser() {}
+// function logOutUser() {}
 </script>
 <template>
     <div class="container">
         <div class="container-fluid">
             <div class="row">
-                <Navbar
-                    :loggedInUserEmail="userData?.user.email"
-                    @logout="logoutUser"
-                />
+                <Navbar />
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 bg-pages">
                     <br /><br />

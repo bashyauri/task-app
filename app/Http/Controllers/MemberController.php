@@ -28,22 +28,29 @@ class MemberController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        $fields = $request->only(keys: ['name', 'email']);
-        $errors = Validator::make(data: $fields, rules: [
-            'name' => 'required|string',
-            'email' => 'required|email',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:members,email',
         ]);
 
-        if ($errors->fails()) {
-            return response()->json(data: $errors->errors(), status: 422);
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors(),
+                'message' => 'Validation failed'
+            ], 422);
         }
 
-        Member::create(attributes: [
-            'name' => $fields['name'],
-            'email' => $fields['email'],
+        $member = Member::create([
+            'name' => $request->name,
+            'email' => $request->email,
         ]);
 
-        return response()->json(data: ['message' => 'Member Created'], status: 201);
+        return response()->json([
+            'success' => true,
+            'data' => $member,
+            'message' => 'Member created successfully'
+        ], 201);
     }
     public function update(Request $request): JsonResponse
     {

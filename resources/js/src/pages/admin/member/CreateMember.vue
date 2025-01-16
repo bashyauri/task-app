@@ -20,7 +20,7 @@ async function submitMember() {
     const result = await v$.value.$validate();
 
     if (!result) return;
-    await createOrUpdateMember();
+    await createOrUpdateMember(memberInput);
     v$.value.$reset();
 }
 </script>
