@@ -26,7 +26,7 @@ async function login() {
                 "userData",
                 JSON.stringify(response.data.data)
             );
-            window.location.href = "app/dashboard";
+            window.location.href = "/app/dashboard";
         }
     } catch (error) {
         loading.value = false;

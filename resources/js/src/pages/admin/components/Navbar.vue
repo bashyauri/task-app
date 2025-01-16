@@ -42,7 +42,7 @@ const logout = async () => {
         <div class="position-sticky pt-3">
             <div align="center">
                 <img
-                    :src="`${App.baseURL}/others/logo.png`"
+                    :src="`${App.baseURL}/others/logo.jpg`"
                     style="height: 55px"
                     alt=""
                 />

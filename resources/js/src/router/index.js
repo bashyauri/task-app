@@ -8,7 +8,7 @@ const AdminPage = () => import("../pages/admin/AdminPage.vue");
 const DashboardPage = () =>
     import("../pages/admin/dashboard/DashboardPage.vue");
 const MemberPage = () => import("../pages/admin/member/MemberPage.vue");
-// const CreateMember = () => import("../pages/admin/member/CreateMember.vue");
+const CreateMember = () => import("../pages/admin/member/CreateMember.vue");
 // const ProjectPage = () => import("../pages/admin/project/ProjectPage.vue");
 // const KabanBoard = () => import("../pages/admin/kabanboard/KabanBoard.vue");
 
@@ -25,7 +25,7 @@ const router = createRouter({
                     component: RegisterPage,
                 },
                 {
-                    path: "login",
+                    path: "/login",
                     name: "login",
                     component: LoginPage,
                 },
@@ -36,8 +36,8 @@ const router = createRouter({
             component: AdminPage,
             children: [
                 {
-                    path: "",
-                    name: "admin-dashboard", // Updated name for clarity
+                    path: "/dashboard",
+                    name: "/dashboard", // Updated name for clarity
                     component: DashboardPage,
                 },
                 {
@@ -45,11 +45,11 @@ const router = createRouter({
                     name: "members",
                     component: MemberPage,
                 },
-                // {
-                //     path: "create-members",
-                //     name: "create-members",
-                //     component: CreateMember,
-                // },
+                {
+                    path: "/create-members",
+                    name: "create-members",
+                    component: CreateMember,
+                },
                 // {
                 //     path: "projects",
                 //     name: "projects",
