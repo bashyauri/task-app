@@ -1,5 +1,16 @@
 <script setup>
 import MemberTable from "./components/MemberTable.vue";
+import useGetMembers from "./actions/getMember";
+import { onMounted } from "vue";
+
+const { loading, members, getMembers } = useGetMembers();
+
+async function showListOfMembers() {
+    await getMembers();
+}
+onMounted(async () => {
+    showListOfMembers();
+});
 </script>
 
 <template>
@@ -17,15 +28,14 @@ import MemberTable from "./components/MemberTable.vue";
                         >
                     </div>
                     <div class="card-body">
-                        <MemberTable>
-                            <!-- <template #pagination>
+                        <MemberTable :members="members" />
+                        <!-- <template #pagination>
                                 <Bootstrap5Pagination
                                     v-if="memberData?.data"
                                     :data="memberData?.data"
                                     @pagination-change-page="getMembers"
                                 />
                             </template> -->
-                        </MemberTable>
                     </div>
                 </div>
             </div>
